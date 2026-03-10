@@ -1,0 +1,118 @@
+<html>
+<head>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        input[type="text"] {
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 8px rgba(102, 126, 234, 0.3);
+            background-color: #f8f9ff;
+        }
+
+        input[type="text"]::placeholder {
+            color: #999;
+        }
+
+        button {
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="login">
+        <h1>🔥 FWI Prediction</h1>
+
+        <!-- Main Input For Receiving Query to our ML -->
+        <form action="{{ url_for('predict_datapoint') }}" method="POST">
+            <input type="text" name="Temperature" placeholder="Temperature" required="required" />
+            <input type="text" name="RH" placeholder="RH" required="required" />
+            <input type="text" name="Ws" placeholder="Ws" required="required" />
+            <input type="text" name="Rain" placeholder="Rain" required="required" />
+            <input type="text" name="FFMC" placeholder="FFMC" required="required" />
+            <input type="text" name="DMC" placeholder="DMC" required="required" />
+            <input type="text" name="ISI" placeholder="ISI" required="required" />
+            <input type="text" name="Classes" placeholder="Classes" required="required" />
+            <input type="text" name="Region" placeholder="Region" required="required" />
+
+            <button type="submit" class="btn btn-primary btn-block btn-large">Predict FWI</button>
+        </form>
+        
+        {% if results is not none %}
+            <h2 style="margin-top: 30px; color: #667eea; text-align: center;">
+                🔥 The FWI Prediction: <strong>{{ "%.2f"|format(results) }}</strong>
+            </h2>
+        {% endif %}
+        
+        {% if error %}
+            <h2 style="margin-top: 30px; color: #dc3545; text-align: center;">
+                Error: {{ error }}
+            </h2>
+        {% endif %}
+    </div>
+</body>
+</html>
